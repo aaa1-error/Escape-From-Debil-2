@@ -17,7 +17,6 @@ namespace Debil {
 
                     Engine.map[Position].IsFree = true;
                     Engine.map[new_pos].IsFree = false;
-                    
                     Position = new_pos;
                 }
             }
