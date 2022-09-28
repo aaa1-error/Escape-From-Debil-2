@@ -10,8 +10,9 @@ namespace Debil {
             
             int Height = 51, Width = 115;
 
-            DebilEngine engine = new DebilEngine(Height, Width, new MazeLike(Height, Width, 30));
-            //DebilEngine engine = new DebilEngine(Height, Width, new Box(Height, Width));
+            //DebilEngine engine = new DebilEngine(Height, Width, new BreadmanStrategy(Height, Width));
+            //DebilEngine engine = new DebilEngine(Height, Width, new MazeLike(Height, Width, 30));
+            DebilEngine engine = new DebilEngine(Height, Width, new Box(Height, Width));
             //DebilEngine engine = new DebilEngine(Height, Width, new Randomized(Height, Width, 20));
             
             /* 

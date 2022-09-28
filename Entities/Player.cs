@@ -78,7 +78,7 @@ namespace Debil {
                             Engine.map[Position].IsFree = false;
                             Engine.map[old_pos].IsFree = true;
 
-                            //Score -= 500;
+                            Score -= 500;
 
                             MovedSuccessfully = true;
                         }
@@ -116,6 +116,16 @@ namespace Debil {
                     case ConsoleKey.PageDown:
                         Engine.EntityMoveInterval = 350;
                         Engine.EntityMoveTimer.Interval = Engine.EntityMoveInterval;
+                        break;
+
+                    case ConsoleKey.Q:
+                        Engine.map[Position].IsSolid = false;
+                        Engine.map[Position].Texture = "  ";
+                        break;
+                    
+                    case ConsoleKey.E:
+                        Engine.map[Position].IsSolid = true;
+                        Engine.map[Position].Texture = "⬛";
                         break;
 
                     default:
