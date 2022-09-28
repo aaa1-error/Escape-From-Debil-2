@@ -54,7 +54,7 @@ namespace Debil {
             {
                 List<Pickup> result = new List<Pickup>();
 
-                result.Add(new Pickup(level.GetRandomPosition(), "🍔", 1000, level.Engine));
+                //result.Add(new Pickup(level.GetRandomPosition(), "🍔", 1000, level.Engine));
                 return result;
             }
         }

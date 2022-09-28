@@ -2,6 +2,11 @@ using System.Diagnostics;
 
 namespace Debil {
     public partial class DebilEngine {
+        public enum WalkMode {
+            Walking,
+            PlacingWalls,
+            RemovingWalls
+        }
         public class Player {
             DebilEngine Engine;
             public Coordinate Position;
@@ -9,6 +14,7 @@ namespace Debil {
             public short Health;
             public long Score;
             bool IgnoreWalls;
+            WalkMode Mode;
             public Player(int _y, int _x, string _texture, DebilEngine _engine) {
                 Position = new Coordinate(_y, _x);
                 Texture = _texture;
@@ -16,6 +22,7 @@ namespace Debil {
                 Health = 1;
                 Score = 0;
                 IgnoreWalls = false;
+                Mode = WalkMode.Walking;
             }
             public void Input() {
                 if(!Console.KeyAvailable) return;
@@ -73,7 +80,7 @@ namespace Debil {
                         break;
 
                     case ConsoleKey.T:
-                        if(Score >= 0) {
+                        if(Score >= 500) {
                             Position = Engine.map.GetRandomPosition();
                             Engine.map[Position].IsFree = false;
                             Engine.map[old_pos].IsFree = true;
@@ -118,14 +125,19 @@ namespace Debil {
                         Engine.EntityMoveTimer.Interval = Engine.EntityMoveInterval;
                         break;
 
-                    case ConsoleKey.Q:
-                        Engine.map[Position].IsSolid = false;
-                        Engine.map[Position].Texture = "  ";
+                    case ConsoleKey.D1:
+                        Mode = WalkMode.Walking;
                         break;
                     
-                    case ConsoleKey.E:
-                        Engine.map[Position].IsSolid = true;
+                    case ConsoleKey.D2:
+                        Mode = WalkMode.PlacingWalls;
                         Engine.map[Position].Texture = "⬛";
+                        Engine.map[Position].IsSolid = true;
+                        break;
+                    case ConsoleKey.D3:
+                        Mode = WalkMode.RemovingWalls;
+                        Engine.map[Position].Texture = "  ";
+                        Engine.map[Position].IsSolid = false;
                         break;
 
                     default:
@@ -134,6 +146,19 @@ namespace Debil {
 
                 if(MovedSuccessfully) {
                     Engine.map.UpdateWaveMap(Position);
+
+                    switch(Mode) {
+                        case WalkMode.RemovingWalls:
+                            Engine.map[Position].Texture = "  ";
+                            Engine.map[Position].IsSolid = false;
+                            break;
+                        case WalkMode.PlacingWalls:
+                            Engine.map[Position].Texture = "⬛";
+                            Engine.map[Position].IsSolid = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
             }

@@ -59,8 +59,13 @@ namespace Debil {
             public override List<Pickup> PlacePickups(Level level)
             {
                 List<Pickup> result = new List<Pickup>();
+                Random rand = new Random(Guid.NewGuid().GetHashCode());
+
+                string[] textures = "🍙 🍕 🍟 🍔 🌭 🍗 🍒 🍎 🍏 🍆 🍓 🍅 🧁".Split(' ');
+                int[] points = new int[] { 500, 200, 100, 300, 500, 700, 50, 150, 200, 50, 100, 50, 100};
+
                 for(int i = 1; i <= 10; i++) {
-                    result.Add(new Pickup(level.GetRandomPosition(), "🍔", 1000, level.Engine));
+                    result.Add(new Pickup(level.GetRandomPosition(), textures[Rand.Next(13)], points[Rand.Next(13)], level.Engine));
                 }
                 return result;
             }
