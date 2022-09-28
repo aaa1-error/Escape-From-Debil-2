@@ -5,7 +5,8 @@ namespace Debil {
         public class Pickup : BaseEntity {
             DebilEngine Engine;
             public int Score;
-            public Pickup(Coordinate position, string texture, int Score, DebilEngine engine) : base(position, texture) {
+            public Pickup(Coordinate position, string texture, int score, DebilEngine engine) : base(position, texture) {
+                Score = score;
                 Engine = engine;
             }
             public void CheckCollision(object? sender, ElapsedEventArgs? e) {

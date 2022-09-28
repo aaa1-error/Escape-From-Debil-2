@@ -13,7 +13,7 @@ namespace Debil {
                 for(int y = 0; y < Height; y++) {
                     for(int x = 0; x < Width; x++) {
                         if(Rand.Next(0, 101) <= WallGenerationChance || (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)) {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "🟨", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), "⬛", true);
                         } else {
                             tiles[y, x] = new Tile(new Coordinate(y, x), "  ", false);
                         }

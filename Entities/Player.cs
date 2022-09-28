@@ -73,12 +73,12 @@ namespace Debil {
                         break;
 
                     case ConsoleKey.T:
-                        if(Score >= 500) {
+                        if(Score >= 0) {
                             Position = Engine.map.GetRandomPosition();
                             Engine.map[Position].IsFree = false;
                             Engine.map[old_pos].IsFree = true;
 
-                            Score -= 500;
+                            //Score -= 500;
 
                             MovedSuccessfully = true;
                         }
