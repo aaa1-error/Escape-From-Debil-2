@@ -60,7 +60,6 @@ namespace Debil {
                     }
 
                     index++;
-
                     Inner = new Queue<Coordinate>(Outer);
                 }
             }
