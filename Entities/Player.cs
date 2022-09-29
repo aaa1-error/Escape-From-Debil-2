@@ -1,13 +1,17 @@
 using System.Diagnostics;
 
-namespace Debil {
-    public partial class DebilEngine {
-        public enum WalkMode {
+namespace Debil
+{
+    public partial class DebilEngine
+    {
+        public enum WalkMode
+        {
             Walking,
             PlacingWalls,
             RemovingWalls
         }
-        public class Player {
+        public class Player
+        {
             DebilEngine Engine;
             public Coordinate Position;
             public string Texture;
@@ -15,7 +19,8 @@ namespace Debil {
             public long Score;
             bool IgnoreWalls;
             WalkMode Mode;
-            public Player(int _y, int _x, string _texture, DebilEngine _engine) {
+            public Player(int _y, int _x, string _texture, DebilEngine _engine)
+            {
                 Position = new Coordinate(_y, _x);
                 Texture = _texture;
                 Engine = _engine;
@@ -24,18 +29,21 @@ namespace Debil {
                 IgnoreWalls = false;
                 Mode = WalkMode.Walking;
             }
-            public void Input() {
-                if(!Console.KeyAvailable) return;
+            public void Input()
+            {
+                if (!Console.KeyAvailable) return;
 
                 bool MovedSuccessfully = false;
                 Coordinate old_pos = new Coordinate(Position);
 
-                switch(Console.ReadKey(true).Key) {
+                switch (Console.ReadKey(true).Key)
+                {
                     case ConsoleKey.UpArrow:
                     case ConsoleKey.W:
-                        if(Position.y == 0) break;
+                        if (Position.y == 0) break;
 
-                        if (!Engine.map[this.Position.y - 1, this.Position.x].IsSolid || IgnoreWalls) {
+                        if (!Engine.Map[this.Position.y - 1, this.Position.x].IsSolid || IgnoreWalls)
+                        {
                             Position.y--;
                             Score += 10;
 
@@ -45,9 +53,10 @@ namespace Debil {
 
                     case ConsoleKey.LeftArrow:
                     case ConsoleKey.A:
-                        if(Position.x == 0) break;
+                        if (Position.x == 0) break;
 
-                        if (!Engine.map[this.Position.y, this.Position.x - 1].IsSolid || IgnoreWalls) {
+                        if (!Engine.Map[this.Position.y, this.Position.x - 1].IsSolid || IgnoreWalls)
+                        {
                             Position.x--;
                             Score += 10;
 
@@ -57,9 +66,10 @@ namespace Debil {
 
                     case ConsoleKey.DownArrow:
                     case ConsoleKey.S:
-                        if(Position.y == Engine.map.Height - 1) break;
+                        if (Position.y == Engine.Map.Height - 1) break;
 
-                        if (!Engine.map[this.Position.y + 1, this.Position.x].IsSolid || IgnoreWalls) {
+                        if (!Engine.Map[this.Position.y + 1, this.Position.x].IsSolid || IgnoreWalls)
+                        {
                             Position.y++;
                             Score += 10;
 
@@ -69,9 +79,10 @@ namespace Debil {
 
                     case ConsoleKey.RightArrow:
                     case ConsoleKey.D:
-                        if(Position.x == Engine.map.Width - 1) break;
+                        if (Position.x == Engine.Map.Width - 1) break;
 
-                        if (!Engine.map[this.Position.y, this.Position.x + 1].IsSolid || IgnoreWalls) {
+                        if (!Engine.Map[this.Position.y, this.Position.x + 1].IsSolid || IgnoreWalls)
+                        {
                             Position.x++;
                             Score += 10;
 
@@ -80,10 +91,11 @@ namespace Debil {
                         break;
 
                     case ConsoleKey.T:
-                        if(Score >= 500) {
-                            Position = Engine.map.GetRandomPosition();
-                            Engine.map[Position].IsFree = false;
-                            Engine.map[old_pos].IsFree = true;
+                        if (Score >= 500)
+                        {
+                            Position = Engine.Map.GetRandomPosition();
+                            Engine.Map[Position].IsFree = false;
+                            Engine.Map[old_pos].IsFree = true;
 
                             Score -= 500;
 
@@ -101,60 +113,63 @@ namespace Debil {
                         break;
 
                     case ConsoleKey.L:
-                        if(Health >= 3) break;
+                        if (Health >= 3) break;
                         Health++;
                         break;
 
-                    case ConsoleKey.X:
-                        if(Engine.DoDebugDraw == true) Engine.DoDebugDraw = false;
-                        else Engine.DoDebugDraw = true;
-                        break;
-
                     case ConsoleKey.F:
-                        if(IgnoreWalls == true) IgnoreWalls = false;
+                        if (IgnoreWalls == true) IgnoreWalls = false;
                         else IgnoreWalls = true;
                         break;
 
                     case ConsoleKey.PageUp:
-                        Engine.EntityMoveInterval = 100;
-                        Engine.EntityMoveTimer.Interval = Engine.EntityMoveInterval;
+                        if(Engine.RendererIndex < Engine.Renderers.Count - 1) {
+                            Engine.RendererIndex++;
+                            Engine.CurrentRenderer = Engine.Renderers[Engine.RendererIndex];
+                        }
+
                         break;
 
                     case ConsoleKey.PageDown:
-                        Engine.EntityMoveInterval = 350;
-                        Engine.EntityMoveTimer.Interval = Engine.EntityMoveInterval;
+                        if(Engine.RendererIndex > 0) {
+                            Engine.RendererIndex--;
+                            Engine.CurrentRenderer = Engine.Renderers[Engine.RendererIndex];
+                        }
+
                         break;
 
                     case ConsoleKey.D1:
                         Mode = WalkMode.Walking;
                         break;
-                    
+
                     case ConsoleKey.D2:
                         Mode = WalkMode.PlacingWalls;
-                        Engine.map[Position].Texture = "⬛";
-                        Engine.map[Position].IsSolid = true;
+                        Engine.Map[Position].Texture = "⬛";
+                        Engine.Map[Position].IsSolid = true;
                         break;
                     case ConsoleKey.D3:
                         Mode = WalkMode.RemovingWalls;
-                        Engine.map[Position].Texture = "  ";
-                        Engine.map[Position].IsSolid = false;
+                        Engine.Map[Position].Texture = "  ";
+                        Engine.Map[Position].IsSolid = false;
                         break;
 
                     default:
                         break;
                 }
 
-                if(MovedSuccessfully) {
-                    Engine.map.UpdateWaveMap(Position);
+                if (MovedSuccessfully)
+                {
+                    Engine.Map.UpdateWaveMap(Position);
 
-                    switch(Mode) {
+                    switch (Mode)
+                    {
                         case WalkMode.RemovingWalls:
-                            Engine.map[Position].Texture = "  ";
-                            Engine.map[Position].IsSolid = false;
+                            Engine.Map[Position].Texture = "  ";
+                            Engine.Map[Position].IsSolid = false;
                             break;
                         case WalkMode.PlacingWalls:
-                            Engine.map[Position].Texture = "⬛";
-                            Engine.map[Position].IsSolid = true;
+                            Engine.Map[Position].Texture = "⬛";
+                            Engine.Map[Position].IsSolid = true;
                             break;
                         default:
                             break;
@@ -163,10 +178,12 @@ namespace Debil {
 
             }
 
-            public void Update(object? sender, System.Timers.ElapsedEventArgs? e) {
+            public void Update(object? sender, System.Timers.ElapsedEventArgs? e)
+            {
                 Score += 5;
             }
-            public void Update() {
+            public void Update()
+            {
 
             }
         }

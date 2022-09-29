@@ -1,8 +1,12 @@
-namespace Debil {
-    public partial class DebilEngine {
-        public abstract class BaseMob : BaseEntity {
+namespace Debil
+{
+    public partial class DebilEngine
+    {
+        public abstract class BaseMob : BaseEntity
+        {
             public DebilEngine Engine;
-            public BaseMob(Coordinate position, string _texture, DebilEngine _engine) : base(position, _texture) {
+            public BaseMob(Coordinate position, string _texture, DebilEngine _engine) : base(position, _texture)
+            {
                 Engine = _engine;
             }
             public abstract void Update(object? sender, System.Timers.ElapsedEventArgs? e);

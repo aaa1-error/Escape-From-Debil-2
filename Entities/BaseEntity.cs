@@ -1,9 +1,13 @@
-namespace Debil {
-    public partial class DebilEngine {
-        public class BaseEntity {
+namespace Debil
+{
+    public partial class DebilEngine
+    {
+        public class BaseEntity
+        {
             public Coordinate Position;
             public string Texture;
-            public BaseEntity() {
+            public BaseEntity()
+            {
                 Position = new Coordinate();
                 Texture = "🫥";
             }
