@@ -33,7 +33,7 @@ namespace Debil
                     if (Coordinate.y == Map.Height - 1 && Coordinate.x == Map.Width - 1) return;
 
                     WaveMap[Coordinate.y, Coordinate.x] = startingValue + index;
-                    Neighbors = Map.FreeNeighbors(Coordinate);
+                    Neighbors = Map.StepableNeighbors(Coordinate);
 
                     foreach (Coordinate Neighbor in Neighbors)
                     {

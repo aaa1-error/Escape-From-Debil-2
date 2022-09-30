@@ -56,7 +56,7 @@ namespace Debil
                         Coordinate = Inner.Dequeue();
 
                         WaveMap[Coordinate.y, Coordinate.x] = startingValue + index;
-                        Neighbors = FreeNeighbors(Coordinate);
+                        Neighbors = StepableNeighbors(Coordinate);
 
                         foreach (Coordinate Neighbor in Neighbors)
                         {
@@ -72,7 +72,7 @@ namespace Debil
                 }
             }
 
-            public List<Coordinate> FreeNeighbors(int y, int x)
+            public List<Coordinate> StepableNeighbors(int y, int x)
             {
                 List<Coordinate> result = new List<Coordinate>();
 
@@ -110,7 +110,7 @@ namespace Debil
 
                 return result;
             }
-            public List<Coordinate> FreeNeighbors(Coordinate position)
+            public List<Coordinate> StepableNeighbors(Coordinate position)
             {
                 List<Coordinate> result = new List<Coordinate>();
 
@@ -219,7 +219,7 @@ namespace Debil
                 Random rand = new Random(Guid.NewGuid().GetHashCode());
                 Coordinate new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
 
-                while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
+                while (this[new_pos].Status != Tile.StatusEnum.Free || this[new_pos].IsSolid)
                 {
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }
