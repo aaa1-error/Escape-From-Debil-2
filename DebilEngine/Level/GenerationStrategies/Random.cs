@@ -19,9 +19,9 @@ namespace Debil
                 {
                     for (int x = 0; x < Width; x++)
                     {
-                        if (Rand.Next(0, 101) <= WallGenerationChance || (y == 0 || y == Height - 1 || x == 0 || x == Width - 1))
+                        if ((y == 0 || y == Height - 1 || x == 0 || x == Width - 1) || Rand.Next(0, 101) <= WallGenerationChance)
                         {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "⬛", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), "🟨", true);
                         }
                         else
                         {
@@ -37,7 +37,7 @@ namespace Debil
                 List<BaseMob> result = new List<BaseMob>();
 
                 for(int i = 1; i <= 5; i++)
-                    result.Add(new PathFindingDebchick(level.GetRandomPosition(), "🤖", level.Engine));
+                    result.Add(new PathFinderDurachock(level.GetRandomPosition(), "🤖", level.Engine));
 
                 return result;
             }

@@ -17,9 +17,9 @@ namespace Debil
 
                 if (possible_moves.Count == 0) return;
 
-                Engine.Map[Position].IsFree = true;
+                Engine.Map[Position].Status = Tile.StatusEnum.Free;
                 Position = possible_moves[Rand.Next(possible_moves.Count)];
-                Engine.Map[Position].IsFree = false;
+                Engine.Map[Position].Status = Tile.StatusEnum.Occupied;
             }
             public override void Update(object? sender, ElapsedEventArgs? e)
             {

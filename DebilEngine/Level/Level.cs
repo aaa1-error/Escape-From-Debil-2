@@ -154,7 +154,7 @@ namespace Debil
 
                 if (position.y > 0)
                 {
-                    if (!Tiles[position.y - 1, position.x].IsSolid && Tiles[position.y - 1, position.x].IsFree)
+                    if (!Tiles[position.y - 1, position.x].IsSolid && Tiles[position.y - 1, position.x].Status != Tile.StatusEnum.Occupied)
                     {
                         result.Add(new Coordinate(position.y - 1, position.x));
                     }
@@ -162,7 +162,7 @@ namespace Debil
 
                 if (position.y < Height - 1)
                 {
-                    if (!Tiles[position.y + 1, position.x].IsSolid && Tiles[position.y + 1, position.x].IsFree)
+                    if (!Tiles[position.y + 1, position.x].IsSolid && Tiles[position.y + 1, position.x].Status != Tile.StatusEnum.Occupied)
                     {
                         result.Add(new Coordinate(position.y + 1, position.x));
                     }
@@ -170,7 +170,7 @@ namespace Debil
 
                 if (position.x > 0)
                 {
-                    if (!Tiles[position.y, position.x - 1].IsSolid && Tiles[position.y, position.x - 1].IsFree)
+                    if (!Tiles[position.y, position.x - 1].IsSolid && Tiles[position.y, position.x - 1].Status != Tile.StatusEnum.Occupied)
                     {
                         result.Add(new Coordinate(position.y, position.x - 1));
                     }
@@ -178,7 +178,7 @@ namespace Debil
 
                 if (position.x < Width - 1)
                 {
-                    if (!Tiles[position.y, position.x + 1].IsSolid && Tiles[position.y, position.x + 1].IsFree)
+                    if (!Tiles[position.y, position.x + 1].IsSolid && Tiles[position.y, position.x + 1].Status != Tile.StatusEnum.Occupied)
                     {
                         result.Add(new Coordinate(position.y, position.x + 1));
                     }
@@ -191,12 +191,12 @@ namespace Debil
                 Random rand = new Random(Guid.NewGuid().GetHashCode());
                 Coordinate new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
 
-                while (!this[new_pos].IsFree || this[new_pos].IsSolid)
+                while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
                 {
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }
 
-                this[Mob.Position].IsFree = true;
+                this[Mob.Position].Status = Tile.StatusEnum.Free;
 
                 Mob.Position = new_pos;
             }
@@ -205,12 +205,12 @@ namespace Debil
                 Random rand = new Random(Guid.NewGuid().GetHashCode());
                 Coordinate new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
 
-                while (!this[new_pos].IsFree || this[new_pos].IsSolid)
+                while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
                 {
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }
 
-                this[Player.Position].IsFree = true;
+                this[Player.Position].Status = Tile.StatusEnum.Free;
 
                 Player.Position = new_pos;
             }
@@ -219,12 +219,12 @@ namespace Debil
                 Random rand = new Random(Guid.NewGuid().GetHashCode());
                 Coordinate new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
 
-                while (!this[new_pos].IsFree || this[new_pos].IsSolid)
+                while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
                 {
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }
 
-                this[Pickup.Position].IsFree = true;
+                this[Pickup.Position].Status = Tile.StatusEnum.Free;
 
                 Pickup.Position = new_pos;
             }
@@ -233,7 +233,7 @@ namespace Debil
                 Random rand = new Random(Guid.NewGuid().GetHashCode());
                 Coordinate new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
 
-                while (!this[new_pos].IsFree || this[new_pos].IsSolid)
+                while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
                 {
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }

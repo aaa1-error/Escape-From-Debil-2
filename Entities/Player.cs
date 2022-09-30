@@ -94,8 +94,8 @@ namespace Debil
                         if (Score >= 500)
                         {
                             Position = Engine.Map.GetRandomPosition();
-                            Engine.Map[Position].IsFree = false;
-                            Engine.Map[old_pos].IsFree = true;
+                            Engine.Map[Position].Status = Tile.StatusEnum.OccupiedButCanStep;
+                            Engine.Map[old_pos].Status = Tile.StatusEnum.Free;
 
                             Score -= 500;
 
@@ -104,8 +104,8 @@ namespace Debil
                         break;
 
                     case ConsoleKey.C:
-                        var proc = Process.Start("clear");
-                        proc.Kill(true);
+                        System.Console.WriteLine("\x1B[1;1H\x1B[2J");
+                        Console.SetCursorPosition(0, 0);
                         break;
 
                     case ConsoleKey.K:

@@ -4,24 +4,20 @@ namespace Debil
     {
         public class Tile : BaseEntity
         {
+            public enum StatusEnum {
+                Free, Occupied, OccupiedButCanStep
+            }
             public bool IsSolid;
-            public bool IsFree;
+            public StatusEnum Status;
             public Tile() : base()
             {
                 IsSolid = false;
-                IsFree = false;
+                Status = StatusEnum.Free;
             }
             public Tile(Coordinate position, string _texture, bool isSolid) : base(position, _texture)
             {
                 IsSolid = isSolid;
-                if (!IsSolid)
-                {
-                    IsFree = true;
-                }
-                else
-                {
-                    IsFree = false;
-                }
+                Status = StatusEnum.Free;
             }
         }
     }

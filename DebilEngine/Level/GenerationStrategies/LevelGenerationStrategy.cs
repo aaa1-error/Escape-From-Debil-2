@@ -48,7 +48,7 @@ namespace Debil
                 List<BaseMob> result = new List<BaseMob>();
 
                 for(int i = 1; i <= 5; i++)
-                    result.Add(new PathFindingDebchick(level.GetRandomPosition(), "🤖", level.Engine));
+                    result.Add(new PathFinderDurachock(level.GetRandomPosition(), "🤖", level.Engine));
                     
                 return result;
             }

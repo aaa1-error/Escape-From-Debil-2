@@ -6,14 +6,14 @@ namespace Debil
     {
         public static void Main(string[] args)
         {
-            int Height = 51, Width = 51;
+            int Height = 21, Width = 51;
 
             List<IRenderer> renderers = new List<IRenderer>();
             renderers.Add(new NormalRenderer());
             renderers.Add(new WaveMapRenderer());
             renderers.Add(new FogRenderer());
 
-            DebilEngine engine = new DebilEngine(Height, Width, new Randomized(Height, Width, 35), renderers);
+            DebilEngine engine = new DebilEngine(Height, Width, new MazeLike(Height, Width, 30), renderers);
             engine.Menu();
         }
     }

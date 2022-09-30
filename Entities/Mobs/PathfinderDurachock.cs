@@ -4,11 +4,11 @@ namespace Debil
 {
     public partial class DebilEngine
     {
-        public class PathFindingDebchick : BaseMob
+        public class PathFinderDurachock : BaseMob
         {
             string SadTexture = ":C";
             string DefaultTexture;
-            public PathFindingDebchick(Coordinate position, string _texture, DebilEngine _engine) : base(position, _texture, _engine)
+            public PathFinderDurachock(Coordinate position, string _texture, DebilEngine _engine) : base(position, _texture, _engine)
             {
                 DefaultTexture = _texture;
             }
@@ -37,8 +37,8 @@ namespace Debil
                     }
                 }
 
-                Engine.Map[Position].IsFree = true;
-                Engine.Map[positionWithLeastIndex].IsFree = false;
+                Engine.Map[Position].Status = Tile.StatusEnum.Free;
+                Engine.Map[positionWithLeastIndex].Status = Tile.StatusEnum.Occupied;
 
                 Position = positionWithLeastIndex;
             }

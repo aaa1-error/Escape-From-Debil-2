@@ -41,8 +41,6 @@ namespace Debil
                     }
                     Console.WriteLine();
                 }
-
-                System.Console.WriteLine($"{Map.Engine.RendererIndex + 1} / {Map.Engine.Renderers.Count}".PadRight(10, ' '));
             }
         }
     }

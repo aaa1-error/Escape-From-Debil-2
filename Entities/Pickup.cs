@@ -19,11 +19,9 @@ namespace Debil
                 {
                     Engine.Debchick.Score += Score;
 
-                    Coordinate new_pos = Engine.Map.GetRandomPosition();
-
-                    Engine.Map[Position].IsFree = true;
-                    Engine.Map[new_pos].IsFree = false;
-                    Position = new_pos;
+                    Engine.Map[Position].Status = Tile.StatusEnum.Free;
+                    Position = Engine.Map.GetRandomPosition();
+                    Engine.Map[Position].Status = Tile.StatusEnum.OccupiedButCanStep;
                 }
             }
         }
