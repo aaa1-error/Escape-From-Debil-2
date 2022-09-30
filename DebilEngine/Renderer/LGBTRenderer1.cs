@@ -2,9 +2,13 @@ namespace Debil
 {
     public partial class DebilEngine
     {
-        public class WaveMapRenderer : IRenderer
+        public class LGBTRenderer1 : IRenderer
         {
-            public WaveMapRenderer()
+            //static List<string> DistanceColors = "🟫 🟥 🟧 🟨 🟩 🟦 🟪 🟣 🔵 🟢 🟡 🟠 🔴 🟤".Split(' ').ToList();
+            //static List<string> DistanceColors = "🟢 🟡 🟠 🔴 🟣 🔵 🟦 🟪 🟥 🟧 🟨 🟩".Split(' ').ToList();
+            //🟩🟨🟧🟥🟪🟦⬜️🔳🔲
+            static List<string> DistanceColors = "🟩 🟨 🟧 🟥 🟪 🟦 ⬜️".Split(' ').ToList();
+            public LGBTRenderer1()
             {
             }
             void IRenderer.Draw(Level Map)
@@ -13,18 +17,35 @@ namespace Debil
                 $"Health: {string.Join("", Enumerable.Repeat("❤️", Map.Engine.Debchick.Health).ToArray())}  Score: {Map.Engine.Debchick.Score}".PadRight(Console.WindowWidth - 2, ' '));
 
                 string[,] frame = new string[Map.Height, Map.Width];
+                int index = 0;
 
                 for (int i = 0; i < Map.Height; i++)
                 {
                     for (int j = 0; j < Map.Width; j++)
                     {
+                        if (Map[i, j].IsSolid)
+                        {
+                            frame[i, j] = "⬛️";
+                            continue;
+                        }
+
                         if (Map.WaveMap[i, j] == 0)
                         {
                             frame[i, j] = "⬛️";
                         }
                         else
                         {
-                            frame[i, j] = Map.WaveMap[i, j].ToString().PadLeft(2, ' ').Substring(0, 2);
+                            index = Map.WaveMap[i, j] / DistanceColors.Count;
+
+                            if (index < DistanceColors.Count)
+                            {
+                                frame[i, j] = DistanceColors[index];
+                            }
+                            else
+                            {
+                                index = index % DistanceColors.Count;
+                                frame[i, j] = DistanceColors[index];
+                            }
                         }
                     }
                 }

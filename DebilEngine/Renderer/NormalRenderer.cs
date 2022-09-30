@@ -4,7 +4,8 @@ namespace Debil
     {
         public class NormalRenderer : IRenderer
         {
-            public NormalRenderer() {
+            public NormalRenderer()
+            {
             }
             void IRenderer.Draw(Level Map)
             {
@@ -23,14 +24,14 @@ namespace Debil
 
                 frame[Map.Engine.Debchick.Position.y, Map.Engine.Debchick.Position.x] = Map.Engine.Debchick.Texture;
 
-                foreach (var mob in Map.Mobs)
-                {
-                    frame[mob.Position.y, mob.Position.x] = mob.Texture;
-                }
-
                 foreach (var pickup in Map.Pickups)
                 {
                     frame[pickup.Position.y, pickup.Position.x] = pickup.Texture;
+                }
+                
+                foreach (var mob in Map.Mobs)
+                {
+                    frame[mob.Position.y, mob.Position.x] = mob.Texture;
                 }
 
                 for (int i = 0; i < Map.Height; i++)

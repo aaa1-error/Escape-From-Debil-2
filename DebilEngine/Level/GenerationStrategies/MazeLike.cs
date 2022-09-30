@@ -57,8 +57,14 @@ namespace Debil
             {
                 List<BaseMob> result = new List<BaseMob>();
 
-                for(int i = 1; i <= 5; i++)
-                    result.Add(new PathFinderDurachock(level.GetRandomPosition(), "🤖", level.Engine));
+                for (int i = 1; i <= 0; i++)
+                    result.Add(new PathFinderDurachock(level.GetRandomPosition(), "👽", level.Engine));
+
+                for (int i = 1; i <= 10; i++)
+                    result.Add(new PathFinderAndRandomDurachock(level.GetRandomPosition(), "😈", "🤬", level.Engine));
+
+                for (int i = 1; i <= 0; i++)
+                    result.Add(new RandomDurachock(level.GetRandomPosition(), "💩", level.Engine));
 
                 return result;
             }

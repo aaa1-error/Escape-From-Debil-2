@@ -47,9 +47,9 @@ namespace Debil
             {
                 List<BaseMob> result = new List<BaseMob>();
 
-                for(int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 5; i++)
                     result.Add(new PathFinderDurachock(level.GetRandomPosition(), "🤖", level.Engine));
-                    
+
                 return result;
             }
             public override List<Pickup> PlacePickups(Level level)

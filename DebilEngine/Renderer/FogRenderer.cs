@@ -31,17 +31,17 @@ namespace Debil
                 }
 
                 frame[Map.Engine.Debchick.Position.y, Map.Engine.Debchick.Position.x] = Map.Engine.Debchick.Texture;
+                
+                foreach (var pickup in Map.Pickups)
+                {
+                    if(Map.WaveMap[pickup.Position.y, pickup.Position.x] <= FogDistance && Map.WaveMap[pickup.Position.y, pickup.Position.x] != 0)
+                        frame[pickup.Position.y, pickup.Position.x] = pickup.Texture;
+                }
 
                 foreach (var mob in Map.Mobs)
                 {
                     if(Map.WaveMap[mob.Position.y, mob.Position.x] <= FogDistance && Map.WaveMap[mob.Position.y, mob.Position.x] != 0)
                         frame[mob.Position.y, mob.Position.x] = mob.Texture;
-                }
-
-                foreach (var pickup in Map.Pickups)
-                {
-                    if(Map.WaveMap[pickup.Position.y, pickup.Position.x] <= FogDistance && Map.WaveMap[pickup.Position.y, pickup.Position.x] != 0)
-                        frame[pickup.Position.y, pickup.Position.x] = pickup.Texture;
                 }
 
                 for (int i = 0; i < Map.Height; i++)

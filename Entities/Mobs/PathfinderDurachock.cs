@@ -6,13 +6,14 @@ namespace Debil
     {
         public class PathFinderDurachock : BaseMob
         {
+            Random Rand;
             string SadTexture = ":C";
             string DefaultTexture;
             public PathFinderDurachock(Coordinate position, string _texture, DebilEngine _engine) : base(position, _texture, _engine)
             {
                 DefaultTexture = _texture;
+                Rand = new Random(Guid.NewGuid().GetHashCode());
             }
-
             public override void Move(object? sender, ElapsedEventArgs? e)
             {
                 List<Coordinate> positions = Engine.Map.PossibleMoves(Position);
