@@ -3,3 +3,4 @@ obj/*
 bin/*
 Escape From Debil 2.csproj
 .vscode/launch.json
+linq.cs

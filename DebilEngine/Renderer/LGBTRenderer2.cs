@@ -4,9 +4,6 @@ namespace Debil
     {
         public class LGBTRenderer2 : IRenderer
         {
-            //static List<string> DistanceColors = "🟫 🟥 🟧 🟨 🟩 🟦 🟪 🟣 🔵 🟢 🟡 🟠 🔴 🟤".Split(' ').ToList();
-            //static List<string> DistanceColors = "🟢 🟡 🟠 🔴 🟣 🔵 🟦 🟪 🟥 🟧 🟨 🟩".Split(' ').ToList();
-            //🟩🟨🟧🟥🟪🟦⬜️🔳🔲
             static List<string> DistanceColors = "🟩|🟨|🟧|🟥|🟪|🟦|  ".Split('|').ToList();
             public LGBTRenderer2()
             {
@@ -23,15 +20,10 @@ namespace Debil
                 {
                     for (int j = 0; j < Map.Width; j++)
                     {
-                        if (Map[i, j].IsSolid)
+                        if (Map[i, j].IsSolid || Map.WaveMap[i, j] == 0)
                         {
                             frame[i, j] = "⬛️";
                             continue;
-                        }
-
-                        if (Map.WaveMap[i, j] == 0)
-                        {
-                            frame[i, j] = "⬛️";
                         }
                         else
                         {

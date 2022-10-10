@@ -5,76 +5,60 @@ namespace Debil
     public partial class DebilEngine
     {
         public static string WallTexture = "⬛";
-
-        /*******************************************/
-
         public Level Map;
         public Player Debchick;
+        public List<IRenderer> Renderers;
         IRenderer CurrentRenderer;
-        List<IRenderer> Renderers;
         int RendererIndex;
         System.Timers.Timer PlayerUpdateTimer;
         System.Timers.Timer EntityMoveTimer;
         System.Timers.Timer EntityUpdateTimer;
-        int EntityMoveInterval = 350;
-        int EntityUpdateInterval = 5;
-        public DebilEngine(int Height, int Width, LevelGenerationStrategy genStrat)
+        const int PlayerUpdateInterval = 1000;
+        const int EntityMoveInterval = 350;
+        const int EntityUpdateInterval = 5;
+        public DebilEngine(int Height, int Width, Level.ILevelGenerator levelGen, Level.IMobPlacer mobPlacer, Level.IPickupPlacer pickupPlacer)
         {
-            Debchick = new Player(1, 1, "🤡", this);
-            Map = new Level(Height, Width, this, genStrat);
-            Map.TeleportRandom(ref Debchick);
-            Map.UpdateWaveMap(Debchick.Position);
-
-            CurrentRenderer = new NormalRenderer();
+            Map = new Level(Height, Width, levelGen, mobPlacer, pickupPlacer, this);
+            Debchick = new Player(0, 0, "🤡", this);
             Renderers = new List<IRenderer>();
+            Renderers.Add(new AreaRender(51, 51));
+            CurrentRenderer = Renderers[0];
             RendererIndex = 0;
 
-            PlayerUpdateTimer = new System.Timers.Timer(1000);
-            PlayerUpdateTimer.Elapsed += Debchick.Update;
+            PlayerUpdateTimer = new System.Timers.Timer(PlayerUpdateInterval);
             EntityMoveTimer = new System.Timers.Timer(EntityMoveInterval);
             EntityUpdateTimer = new System.Timers.Timer(EntityUpdateInterval);
-
-            foreach (var mob in Map.Mobs)
-            {
-                EntityMoveTimer.Elapsed += mob.Move;
-                EntityUpdateTimer.Elapsed += mob.Update;
-            }
-
-            foreach (var pickup in Map.Pickups)
-            {
-                EntityUpdateTimer.Elapsed += pickup.CheckCollision;
-            }
         }
-        public DebilEngine(int Height, int Width, LevelGenerationStrategy genStrat, List<IRenderer> renderers)
+        public void Initialize()
         {
-            Debchick = new Player(1, 1, "🤡", this);
-            Map = new Level(Height, Width, this, genStrat);
-            Map.TeleportRandom(ref Debchick);
-            Map.UpdateWaveMap(Debchick.Position);
+            Map.Generate();
 
-            CurrentRenderer = renderers[0];
-            Renderers = renderers;
-            RendererIndex = 0;
+            PlayerUpdateTimer.Close();
+            EntityUpdateTimer.Close();
+            EntityMoveTimer.Close();
 
-            PlayerUpdateTimer = new System.Timers.Timer(1000);
             PlayerUpdateTimer.Elapsed += Debchick.Update;
-            EntityMoveTimer = new System.Timers.Timer(EntityMoveInterval);
-            EntityUpdateTimer = new System.Timers.Timer(EntityUpdateInterval);
 
-            foreach (var mob in Map.Mobs)
+            foreach(var mob in Map.Mobs)
             {
-                EntityMoveTimer.Elapsed += mob.Move;
                 EntityUpdateTimer.Elapsed += mob.Update;
+                EntityMoveTimer.Elapsed += mob.Move;
             }
 
-            foreach (var pickup in Map.Pickups)
+            Console.WriteLine("Mobs");
+            
+            foreach(var pickup in Map.Pickups)
             {
                 EntityUpdateTimer.Elapsed += pickup.CheckCollision;
             }
+
+            Console.WriteLine("Pickups");
+
+            Console.WriteLine("Finally");
         }
         public void Run()
         {
-
+            //Map.TeleportRandom(ref Debchick);
             Debchick.Position = Map.GetRandomPosition();
             Map.UpdateWaveMap(Debchick.Position);
             Debchick.Health = 1;
@@ -91,7 +75,6 @@ namespace Debil
 
                 Debchick.Input();
                 CurrentRenderer.Draw(Map);
-                //System.Console.WriteLine($"{Map.Engine.RendererIndex + 1} / {Map.Engine.Renderers.Count}".PadRight(10, ' '));
 
                 Thread.Sleep(5);
             }
@@ -104,6 +87,8 @@ namespace Debil
         {
             ConsoleKeyInfo key;
             Process proc;
+
+            Initialize();
 
             while (true)
             {

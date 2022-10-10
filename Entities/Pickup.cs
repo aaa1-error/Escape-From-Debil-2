@@ -12,6 +12,7 @@ namespace Debil
             {
                 Score = score;
                 Engine = engine;
+                Engine.Map[Position].Status = Tile.StatusEnum.OccupiedButCanStep;
             }
             public void CheckCollision(object? sender, ElapsedEventArgs? e)
             {

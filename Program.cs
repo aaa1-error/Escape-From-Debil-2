@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System.Timers;
 
 namespace Debil
 {
@@ -6,17 +6,17 @@ namespace Debil
     {
         public static void Main(string[] args)
         {
-            int Height = 51, Width = 51 ;
+            int Height = 51, Width = 111;   
 
-            List<IRenderer> renderers = new List<IRenderer>();
-        
-            //for(int i = 51; i >= 11; i--) 
-            renderers.Add(new AreaRender(31, 31));
-            renderers.Add(new AreaRender(51, 51));
-            renderers.Add(new NormalRenderer());
-            
-            DebilEngine engine = new DebilEngine(Height, Width, new MazeLike(Height, Width, 30), renderers);
-            //DebilEngine engine = new DebilEngine(Height, Width, new Box(Height, Width), renderers);
+            DebilEngine engine = new DebilEngine(Height, Width,
+                                 new Level.DecoratorTest(new Level.Simplex(30, 0.1f)),
+                                 //new Level.MazeLike(30),
+                                 new Level.NoMobs(),
+                                 new Level.NoPickups());
+
+            engine.Renderers.Add(new NormalRenderer());
+            engine.Renderers.Add(new WaveMapRenderer());
+
             engine.Menu();
         }
     }

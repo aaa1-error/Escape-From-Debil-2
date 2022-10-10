@@ -4,28 +4,42 @@ namespace Debil
 {
     public partial class DebilEngine
     {
-        public class Level
+        public partial class Level
         {
             public readonly int Height;
             public readonly int Width;
-            public LevelGenerationStrategy Strategy;
+            protected Tile[,] Tiles;
+            public int[,] WaveMap;
+            public ILevelGenerator LevelGenerator;
+            public IMobPlacer MobPlacer;
+            public IPickupPlacer PickupPlacer;
             public List<BaseMob> Mobs;
             public List<Pickup> Pickups;
-            private Tile[,] Tiles;
             public DebilEngine Engine;
-            public int[,] WaveMap;
-            public Level(int _height, int _width, DebilEngine _engine, LevelGenerationStrategy _strategy)
+            public Level(int _height, int _width, ILevelGenerator generator, IMobPlacer mobPlacer, IPickupPlacer pickupPlacer, DebilEngine engine)
             {
+                if (_height <= 0) throw new ArgumentException("Height must be greater than zero");
                 Height = _height;
+                if (_width <= 0) throw new ArgumentException("Width must be greater than zero");
                 Width = _width;
-                Strategy = _strategy;
-                Engine = _engine;
-                Tiles = Strategy.GenerateLevel();
+
+                Engine = engine;
+
+                LevelGenerator = generator;
+                MobPlacer = mobPlacer;
+                PickupPlacer = pickupPlacer;
+
+                Mobs = new List<BaseMob>();
+                Pickups = new List<Pickup>();
 
                 WaveMap = new int[Height, Width];
-
-                Mobs = Strategy.PlaceMobs(this);
-                Pickups = Strategy.PlacePickups(this);
+                Tiles = new Tile[Height, Width];
+            }
+            public void Generate()
+            {
+                Tiles = LevelGenerator.Generate(Height, Width);
+                Mobs = MobPlacer.PlaceMobs(this);
+                Pickups = PickupPlacer.PlacePickups(this);
             }
             public void UpdateWaveMap(Coordinate playerPosition)
             {
@@ -207,6 +221,7 @@ namespace Debil
 
                 while (this[new_pos].Status == Tile.StatusEnum.Occupied || this[new_pos].IsSolid)
                 {
+                    Console.WriteLine("while teleport random");
                     new_pos = new Coordinate(rand.Next(0, Height), rand.Next(0, Width));
                 }
 

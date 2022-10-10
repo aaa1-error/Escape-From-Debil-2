@@ -183,7 +183,6 @@ namespace Debil
                             break;
                     }
                 }
-
             }
 
             public void Update(object? sender, System.Timers.ElapsedEventArgs? e)
