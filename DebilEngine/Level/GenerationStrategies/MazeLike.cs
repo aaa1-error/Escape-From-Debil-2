@@ -2,6 +2,15 @@ namespace Debil
 {
     public partial class DebilEngine
     {
+        private struct PickupIdentity
+        {
+            public string Texture;
+            public int Score;
+            public PickupIdentity(string t, int s) {
+                Texture = t;
+                Score = s;
+            }
+        }
         public class MazeLike : LevelGenerationStrategy
         {
             Random Rand;
@@ -21,12 +30,17 @@ namespace Debil
                     {
                         if ((y == 0 || y == Height - 1 || x == 0 || x == Width - 1))
                         {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "🟨", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), WallTexture, true);
                         }
                         else
                         {
                             tiles[y, x] = new Tile(new Coordinate(y, x), "  ", false);
                         }
+
+                        System.Console.WriteLine($"Generated {y * Width + x}/{Height * Width}");
+                        Console.SetCursorPosition(0, 0);
+                        Console.CursorVisible = false;
+
                     }
                 }
 
@@ -36,7 +50,7 @@ namespace Debil
                     {
                         if (y % 2 == 0 && x % 2 == 0)
                         {
-                            tiles[y, x].Texture = "🟨";
+                            tiles[y, x].Texture = WallTexture;
                             tiles[y, x].IsSolid = true;
                         }
 
@@ -44,7 +58,7 @@ namespace Debil
                         {
                             if (Rand.Next(0, 100) <= WallGenerationChance)
                             {
-                                tiles[y, x].Texture = "🟨";
+                                tiles[y, x].Texture = WallTexture;
                                 tiles[y, x].IsSolid = true;
                             }
                         }
@@ -57,29 +71,58 @@ namespace Debil
             {
                 List<BaseMob> result = new List<BaseMob>();
 
-                for (int i = 1; i <= 0; i++)
+                /* for (int i = 1; i <= 500; i++)
                     result.Add(new PathFinderDurachock(level.GetRandomPosition(), "👽", level.Engine));
 
-                for (int i = 1; i <= 10; i++)
+                for (int i = 1; i <= 150; i++)
                     result.Add(new PathFinderAndRandomDurachock(level.GetRandomPosition(), "😈", "🤬", level.Engine));
 
-                for (int i = 1; i <= 0; i++)
-                    result.Add(new RandomDurachock(level.GetRandomPosition(), "💩", level.Engine));
+                for (int i = 1; i <= 100; i++)
+                    result.Add(new RandomDurachock(level.GetRandomPosition(), "💩", level.Engine)); */
+
+                int pointsCount = (int)(Math.Abs((Math.Sin(Height) * 100.0 + Math.Sin(Width) * 100.0)));
+                System.Console.WriteLine(pointsCount);
+                Console.ReadKey(true);
+                List<Coordinate> freeCoordinates = new List<Coordinate>();
+
+                for(int i = 1; i <= pointsCount; i++) 
+                    freeCoordinates.Add(level.GetRandomPosition());
+
+                for (int i = 1; i <= pointsCount; i++)
+                    result.Add(new AdaptedPoint(new Samara.Point((double)freeCoordinates[i-1].y, (double)freeCoordinates[i-1].x), level.Engine));
 
                 return result;
             }
             public override List<Pickup> PlacePickups(Level level)
             {
                 List<Pickup> result = new List<Pickup>();
-                Random rand = new Random(Guid.NewGuid().GetHashCode());
-
-                string[] textures = "🍙 🍕 🍟 🍔 🌭 🍗 🍒 🍎 🍏 🍆 🍓 🍅 🧁".Split(' ');
-                int[] points = new int[] { 5000, 2000, 1000, 3000, 5000, 1000, 500, 1500, 2000, 500, 1000, 100, 500 };
-
-                for (int i = 1; i <= 10; i++)
+                /* List<PickupIdentity> pickupIdentities = new List<PickupIdentity>()
                 {
-                    result.Add(new Pickup(level.GetRandomPosition(), textures[Rand.Next(13)], points[Rand.Next(13)], level.Engine));
-                }
+                    new PickupIdentity("🥝", 100),
+                    new PickupIdentity("🍅", 200),
+                    new PickupIdentity("🍉", 500),
+                    new PickupIdentity("🥐", 500),
+                    new PickupIdentity("🧀", 400),
+                    new PickupIdentity("🍗", 1000),
+                    new PickupIdentity("🍖", 1500),
+                    new PickupIdentity("🌭", 2000),
+                    new PickupIdentity("🍔", 4000),
+                    new PickupIdentity("🍟", 1500),
+                    new PickupIdentity("🍕", 3000),
+                    new PickupIdentity("🍙", 1000),
+                    new PickupIdentity("🍊", 600),
+                    new PickupIdentity("🍎", 300)
+                };
+                Random rand = new Random(Guid.NewGuid().GetHashCode());
+                PickupIdentity pickupData;
+
+                int PickupCount = (level.Height * level.Width) / 256;
+                for (int i = 1; i <= PickupCount; i++)
+                {
+                    pickupData = pickupIdentities[rand.Next(pickupIdentities.Count)];
+
+                    result.Add(new Pickup(level.GetRandomPosition(), pickupData.Texture, pickupData.Score, level.Engine));
+                } */
                 return result;
             }
         }

@@ -32,7 +32,7 @@ namespace Debil
                     {
                         if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                         {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "⬛", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), WallTexture, true);
                         }
                         else
                         {
@@ -47,8 +47,16 @@ namespace Debil
             {
                 List<BaseMob> result = new List<BaseMob>();
 
-                for (int i = 1; i <= 5; i++)
-                    result.Add(new PathFinderDurachock(level.GetRandomPosition(), "🤖", level.Engine));
+                int pointsCount = (int)(Math.Abs((Math.Sin(Height) * 100.0 + Math.Sin(Width) * 100.0)));
+                System.Console.WriteLine(pointsCount);
+                Console.ReadKey(true);
+                List<Coordinate> freeCoordinates = new List<Coordinate>();
+
+                for(int i = 1; i <= pointsCount; i++) 
+                    freeCoordinates.Add(level.GetRandomPosition());
+
+                for (int i = 1; i <= pointsCount; i++)
+                    result.Add(new AdaptedPoint(new Samara.Point((double)freeCoordinates[i-1].y, (double)freeCoordinates[i-1].x), level.Engine));
 
                 return result;
             }

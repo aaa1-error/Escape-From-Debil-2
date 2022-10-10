@@ -18,7 +18,7 @@ namespace Debil
                     {
                         if ((y == 0 || y == Height - 1 || x == 0 || x == Width - 1) || x % 2 == 0)
                         {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "⬛", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), WallTexture, true);
                             continue;
                         }
                         else

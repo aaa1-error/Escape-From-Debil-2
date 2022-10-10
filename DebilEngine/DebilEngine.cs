@@ -4,6 +4,10 @@ namespace Debil
 {
     public partial class DebilEngine
     {
+        public static string WallTexture = "⬛";
+
+        /*******************************************/
+
         public Level Map;
         public Player Debchick;
         IRenderer CurrentRenderer;
@@ -87,7 +91,7 @@ namespace Debil
 
                 Debchick.Input();
                 CurrentRenderer.Draw(Map);
-                System.Console.WriteLine($"{Map.Engine.RendererIndex + 1} / {Map.Engine.Renderers.Count}".PadRight(10, ' '));
+                //System.Console.WriteLine($"{Map.Engine.RendererIndex + 1} / {Map.Engine.Renderers.Count}".PadRight(10, ' '));
 
                 Thread.Sleep(5);
             }
@@ -99,10 +103,12 @@ namespace Debil
         public void Menu()
         {
             ConsoleKeyInfo key;
+            Process proc;
 
             while (true)
             {
-                System.Console.WriteLine("\x1B[1;1H\x1B[2J");
+                proc = Process.Start("clear");
+                proc.Kill(true);
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("\u001b[38;5;202m" +
@@ -121,7 +127,8 @@ namespace Debil
 
                 key = Console.ReadKey(true);
 
-                System.Console.WriteLine("\x1B[1;1H\x1B[2J");
+                proc = Process.Start("clear");
+                proc.Kill(true);
                 Console.SetCursorPosition(0, 0);
 
                 if (key.Key == ConsoleKey.Escape)
@@ -131,7 +138,8 @@ namespace Debil
 
                 Run();
 
-                System.Console.WriteLine("\x1B[1;1H\x1B[2J");
+                proc = Process.Start("clear");
+                proc.Kill(true);
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("\u001b[38;5;202m" +
@@ -148,8 +156,8 @@ namespace Debil
 
                 Console.ReadKey(true);
 
-                System.Console.WriteLine("\x1B[1;1H\x1B[2J");
-                Console.SetCursorPosition(0, 0);
+                proc = Process.Start("clear");
+                proc.Kill(true);
             }
         }
     }

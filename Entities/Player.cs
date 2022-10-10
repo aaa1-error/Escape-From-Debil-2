@@ -33,6 +33,8 @@ namespace Debil
             {
                 if (!Console.KeyAvailable) return;
 
+                Process proc;
+
                 bool MovedSuccessfully = false;
                 Coordinate old_pos = new Coordinate(Position);
 
@@ -104,8 +106,8 @@ namespace Debil
                         break;
 
                     case ConsoleKey.C:
-                        System.Console.WriteLine("\x1B[1;1H\x1B[2J");
-                        Console.SetCursorPosition(0, 0);
+                        proc = Process.Start("clear");
+                        proc.Kill(true);
                         break;
 
                     case ConsoleKey.K:
@@ -126,6 +128,9 @@ namespace Debil
                         if(Engine.RendererIndex < Engine.Renderers.Count - 1) {
                             Engine.RendererIndex++;
                             Engine.CurrentRenderer = Engine.Renderers[Engine.RendererIndex];
+
+                            proc = Process.Start("clear");
+                            proc.Kill(true);
                         }
 
                         break;
@@ -134,6 +139,9 @@ namespace Debil
                         if(Engine.RendererIndex > 0) {
                             Engine.RendererIndex--;
                             Engine.CurrentRenderer = Engine.Renderers[Engine.RendererIndex];
+
+                            proc = Process.Start("clear");
+                            proc.Kill(true);
                         }
 
                         break;

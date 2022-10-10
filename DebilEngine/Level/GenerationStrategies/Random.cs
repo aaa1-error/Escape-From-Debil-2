@@ -21,7 +21,7 @@ namespace Debil
                     {
                         if ((y == 0 || y == Height - 1 || x == 0 || x == Width - 1) || Rand.Next(0, 101) <= WallGenerationChance)
                         {
-                            tiles[y, x] = new Tile(new Coordinate(y, x), "🟨", true);
+                            tiles[y, x] = new Tile(new Coordinate(y, x), WallTexture, true);
                         }
                         else
                         {

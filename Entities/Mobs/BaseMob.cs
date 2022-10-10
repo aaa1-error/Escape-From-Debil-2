@@ -9,6 +9,10 @@ namespace Debil
             {
                 Engine = _engine;
             }
+            public BaseMob(DebilEngine _engine) : base()
+            {
+                Engine = _engine;
+            }
             public abstract void Update(object? sender, System.Timers.ElapsedEventArgs? e);
             public abstract void Move(object? sender, System.Timers.ElapsedEventArgs? e);
         }
