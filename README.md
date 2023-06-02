@@ -16,4 +16,4 @@
 | 3           | Player will place remove on every cell they step    | 
 
 # For Windows users
-If you plan to run this masterpiece on Windows, you will need to use Windows Terminal instead of cmd, because cmd does not support emoticons.
+If you want to play this masterpiece on Windows, you'll have to use Windows Terminal insted of just cmd, because cmd can't display emojis.
